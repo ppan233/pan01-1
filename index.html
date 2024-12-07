@@ -13,7 +13,7 @@
         }
         textarea {
             width: 80%;
-            height: 200px;
+            height: 100px;
             margin-bottom: 20px;
         }
         button {
@@ -22,12 +22,19 @@
         }
         #savedContent {
             margin-top: 20px;
-            white-space: pre-wrap; /* 保留空格和换行 */
+            white-space: pre-wrap; /* 保持空格和换行 */
             background-color: #fff;
             border: 1px solid #ccc;
             padding: 10px;
             width: 80%;
             margin: auto;
+            max-height: 300px;
+            overflow-y: auto; /* 允许垂直滚动 */
+        }
+        .entry {
+            margin-bottom: 10px;
+            padding: 5px;
+            border-bottom: 1px solid #ccc;
         }
     </style>
 </head>
@@ -42,18 +49,36 @@
     <script>
         // 加载已保存的内容
         window.onload = function() {
-            const savedContent = localStorage.getItem('content');
-            if (savedContent) {
-                document.getElementById('savedContent').textContent = savedContent;
-            }
+            const savedEntries = JSON.parse(localStorage.getItem('entries')) || [];
+            displayEntries(savedEntries);
         };
 
         // 保存内容到Local Storage
         function saveContent() {
             const content = document.getElementById('inputArea').value;
-            localStorage.setItem('content', content);
-            document.getElementById('savedContent').textContent = content;
+            if (content.trim() === '') {
+                alert('输入内容不能为空！');
+                return;
+            }
+
+            const savedEntries = JSON.parse(localStorage.getItem('entries')) || [];
+            savedEntries.push(content);
+            localStorage.setItem('entries', JSON.stringify(savedEntries));
+            displayEntries(savedEntries);
             document.getElementById('inputArea').value = ''; // 清空输入框
+        }
+
+        // 显示已保存的内容
+        function displayEntries(entries) {
+            const savedContentDiv = document.getElementById('savedContent');
+            savedContentDiv.innerHTML = ''; // 清空当前内容
+
+            entries.forEach((entry, index) => {
+                const entryDiv = document.createElement('div');
+                entryDiv.classList.add('entry');
+                entryDiv.textContent = `${index + 1}: ${entry}`;
+                savedContentDiv.appendChild(entryDiv);
+            });
         }
     </script>
 </body>
