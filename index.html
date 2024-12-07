@@ -1,45 +1,60 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>pjw love crq</title>
-    <style>  
-      body {
-        margin: 0;
-      }
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>内容输入和保存</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+            background-color: #f0f0f0;
+        }
+        textarea {
+            width: 80%;
+            height: 200px;
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+        #savedContent {
+            margin-top: 20px;
+            white-space: pre-wrap; /* 保留空格和换行 */
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 10px;
+            width: 80%;
+            margin: auto;
+        }
     </style>
-  </head>
-  <body>
-    <div style="
-       background-color: #f1f1f1;
-       text-align: center;
-       padding: 40px;
-    ">
-      <img src='https://kangwenchang.com/logo.png'alt="潘建文"width="80px"> 
-    </div>
-    <div style="
-      max-width: 700px;
-      margin: 30px auto;
-      padding: 15px;
-      line-height: 1.7;
-      color: blue;
-    "
-      <p>>我爱你</p>
-      <p>你爱我</p>
-      <p>哈哈哈</p>
-      <p>潘建文</p>
+</head>
+<body>
+    <h1>输入内容并保存</h1>
+    <textarea id="inputArea" placeholder="在这里输入你的内容..."></textarea><br>
+    <button onclick="saveContent()">保存内容</button>
+    
+    <h2>已保存的内容</h2>
+    <div id="savedContent"></div>
 
-    </div>
-    <div style="
-       background-color: #f1f1f1;
-       text-align: center;
-       padding: 40px;
-       font-size: 12px;
-    ">
-      <p>我的网站</p>
-      <a href="https://kangwenchang.com/">友情链接</a>
-    </div>
-    <p>显示</p>
-  </body>
+    <script>
+        // 加载已保存的内容
+        window.onload = function() {
+            const savedContent = localStorage.getItem('content');
+            if (savedContent) {
+                document.getElementById('savedContent').textContent = savedContent;
+            }
+        };
+
+        // 保存内容到Local Storage
+        function saveContent() {
+            const content = document.getElementById('inputArea').value;
+            localStorage.setItem('content', content);
+            document.getElementById('savedContent').textContent = content;
+            document.getElementById('inputArea').value = ''; // 清空输入框
+        }
+    </script>
+</body>
 </html>
